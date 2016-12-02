@@ -32,6 +32,11 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 	protected int mGlobalState;
 
 	/**
+	 * the state transformer.
+	 */
+	protected StateMachine.StateTransformer<E> mTransformer;
+
+	/**
 	 * the temp list state.
 	 */
 	protected List<State<E>> mTempStates;
@@ -41,7 +46,8 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 	 * 
 	 * @param owner
 	 *            the owner of the state machine
-	 * @param provider the state provider           
+	 * @param provider
+	 *            the state provider
 	 */
 	public DefaultStateMachine(E owner, StateProvider<E> provider) {
 		this(owner, provider, 0, 0);
@@ -52,7 +58,8 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 	 * 
 	 * @param owner
 	 *            the owner of the state machine
-	 * @param provider the state provider  
+	 * @param provider
+	 *            the state provider
 	 * 
 	 * @param initialState
 	 *            the initial state
@@ -67,7 +74,8 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 	 * 
 	 * @param owner
 	 *            the owner of the state machine
-	 * @param provider the state provider             
+	 * @param provider
+	 *            the state provider
 	 * @param initialState
 	 *            the initial state
 	 * @param globalState
@@ -104,13 +112,20 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 		this.mGlobalState = states;
 	}
 
-	/**
-	 * Updates the state machine by invoking first the {@code execute} method of
-	 * the global state (if any) then the {@code execute} method of the current
-	 * state.
-	 */
 	@Override
-	public void update() {
+	public final void update() {
+		
+		onUpdate();
+		// transform state if need
+		if(mTransformer != null){
+			mTransformer.transformState(this, mOwner);
+		}
+	}
+
+	/**
+	 * this is called in {@link #update()} method. 
+	 */
+	protected void onUpdate() {
 		// Execute the global state (if any)
 		if (mGlobalState != 0) {
 			updateState(mGlobalState);
@@ -159,36 +174,35 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 		return true;
 	}
 
-	
 	@Override
 	public boolean isInState(int states) {
 		return mCurrentState == states;
 	}
 
 	@Override
-	public List<State<E>> getCurrentState(List<State<E>> outStates) {
+	public int getCurrentState(List<State<E>> outStates) {
 		return getStateInternal(mCurrentState, outStates);
 	}
 
 	@Override
-	public List<State<E>> getGlobalState(List<State<E>> outStates) {
+	public int getGlobalState(List<State<E>> outStates) {
 		return getStateInternal(mGlobalState, outStates);
 	}
 
 	@Override
-	public List<State<E>> getPreviousState(List<State<E>> outStates) {
+	public int getPreviousState(List<State<E>> outStates) {
 		return getStateInternal(mPreviousState, outStates);
 	}
 
-	private List<State<E>> getStateInternal(int expectState, List<State<E>> outStates) {
+	private int getStateInternal(int expectState, List<State<E>> outStates) {
 		if (expectState != 0) {
 			if (outStates == null) {
 				outStates = new ArrayList<State<E>>();
 			}
 			mStateProvider.getStates(expectState, outStates);
-			return outStates;
+			return expectState;
 		} else {
-			return null;
+			return 0;
 		}
 	}
 
@@ -196,7 +210,7 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 		final List<State<E>> mTempStates = this.mTempStates;
 		final E mOwner = this.mOwner;
 		mStateProvider.getStates(expectStates, mTempStates);
-		for (int size = mTempStates.size() , i = size -1; i >=0 ; i--) {
+		for (int size = mTempStates.size(), i = size - 1; i >= 0; i--) {
 			mTempStates.get(i).update(mOwner);
 		}
 		mTempStates.clear();
@@ -206,7 +220,7 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 		final List<State<E>> mTempStates = this.mTempStates;
 		final E mOwner = this.mOwner;
 		mStateProvider.getStates(states, mTempStates);
-		for (int size = mTempStates.size() , i = size -1; i >=0 ; i--) {
+		for (int size = mTempStates.size(), i = size - 1; i >= 0; i--) {
 			mTempStates.get(i).exit(mOwner);
 		}
 		mTempStates.clear();
@@ -216,7 +230,7 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 		final List<State<E>> mTempStates = this.mTempStates;
 		final E mOwner = this.mOwner;
 		mStateProvider.getStates(states, mTempStates);
-		for (int size = mTempStates.size() , i = size -1; i >=0 ; i--) {
+		for (int size = mTempStates.size(), i = size - 1; i >= 0; i--) {
 			mTempStates.get(i).enter(mOwner);
 		}
 		mTempStates.clear();
@@ -226,6 +240,11 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 		if (expectState <= 0) {
 			throw new IllegalArgumentException();
 		}
+	}
+
+	@Override
+	public void setStateTransformer(StateMachine.StateTransformer<E> transformer) {
+		this.mTransformer = transformer;
 	}
 
 }

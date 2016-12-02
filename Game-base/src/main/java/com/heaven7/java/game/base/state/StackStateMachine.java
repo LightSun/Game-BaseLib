@@ -39,9 +39,9 @@ public class StackStateMachine<E extends StateMachineSupplier<E>> extends
 	}
 	
 	@Override
-	public List<State<E>> getPreviousState(List<State<E>> outStates) {
+	public int getPreviousState(List<State<E>> outStates) {
 		if(mStateStack.size() == 0){
-			return null;
+			return 0;
 		}
 		//get last.
 		int preState = mStateStack.peek();
@@ -49,7 +49,7 @@ public class StackStateMachine<E extends StateMachineSupplier<E>> extends
 			outStates = new ArrayList<State<E>>();
 		}
 		mStateProvider.getStates(preState, outStates);
-		return outStates;
+		return preState;
 	}
 	
 	@Override

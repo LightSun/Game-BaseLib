@@ -10,8 +10,19 @@ import java.util.List;
  */
 public interface StateMachine<E extends StateMachineSupplier<E>>{
 	
-
-	/**  update the state machine */
+	
+	/**
+	 * set the state transformer.
+	 * @param transformer the state transformer
+	 */
+    public void setStateTransformer(StateTransformer<E> transformer);  
+	
+	
+    /**
+	 * Updates the state machine by invoking first the {@code execute} method of
+	 * the global state (if any) then the {@code execute} method of the current
+	 * state.
+	 */
 	public void update ();
 	
 	/**
@@ -47,23 +58,23 @@ public interface StateMachine<E extends StateMachineSupplier<E>>{
 
 	/** Returns the current state of this state machine. outStates can be null. 
 	 * @param outStates  optional , can be null 
-	 * @return the state list
+	 * @return the state as int
 	 **/
-	public List<State<E>> getCurrentState(List<State<E>> outStates);
+	public int getCurrentState(List<State<E>> outStates);
 	
 
 	/** return the global state,  outStates can be null. 
 	 * @param outStates  optional , can be null 
-	 * @return the state list
+	 * @return the state as int
 	 * */
-	public List<State<E>>  getGlobalState (List<State<E>> outStates);
+	public int getGlobalState (List<State<E>> outStates);
 	
 
 	/** Returns the last state of this state machine. outStates can be null.
 	 * @param outStates  optional , can be null 
-	 * @return the state list
+	 * @return the state as int
 	 *  */
-	public List<State<E>>  getPreviousState (List<State<E>> outStates);
+	public int getPreviousState (List<State<E>> outStates);
 	
 	/**
 	 * Indicates whether the state machine is in the given state.
@@ -78,6 +89,22 @@ public interface StateMachine<E extends StateMachineSupplier<E>>{
 	 *         object.
 	 */
 	public boolean isInState (int states);
+	
+	/**
+	 * the state transformer. use to transform state.
+	 * @author don
+	 *
+	 * @param <E> the entity
+	 */
+	public interface StateTransformer<E extends StateMachineSupplier<E>>{
+		
+		/**
+		 * transform the state of StateMachine.
+		 * @param e the State Machine Supplier.
+		 * @param machine the state machine
+		 */
+		void transformState(StateMachine<E> machine, E e);
+	}
 	
 }
 

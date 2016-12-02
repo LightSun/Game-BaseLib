@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CatStateProvider implements StateProvider<Cat> {
+public class CatStateProvider2 extends CatStateProvider {
 	
 	public static final int STATE_EAT    = 1  ;
 	public static final int STATE_RUN    = 1 << 1;
@@ -18,13 +18,13 @@ public class CatStateProvider implements StateProvider<Cat> {
 			out.clear();
 		}
 		if((stateFlags & STATE_EAT ) != 0){
-			out.add(CatState.Eat);
+			out.add(CatState2.Eat);
 		}
 		if((stateFlags & STATE_RUN ) != 0){
-			out.add(CatState.Run);
+			out.add(CatState2.Run);
 		}
 		if((stateFlags & STATE_SLEEP ) != 0){
-			out.add(CatState.Sleep);
+			out.add(CatState2.Sleep);
 		}
 		return out;
 	}

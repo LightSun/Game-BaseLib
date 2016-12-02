@@ -2,56 +2,40 @@ package com.heaven7.java.game.base.state;
 
 import com.heaven7.java.game.base.state.State;
 
-/**
- * single state
- * @author don
- *
- */
-public abstract class CatState implements State<Cat>{
+
+public abstract class CatState2 implements State<Cat>{
 	
-	public static final CatState Eat = new CatState(){
+	public static final CatState2 Eat = new CatState2(){
 		@Override
 		protected String getStateName(Cat cat) {
-			return "eat";
+			return "eat   --> " + cat.eat;
 		}
 		@Override
 		public void update(Cat entity) {
-			super.update(entity);
 			entity.eat++;
-			if(entity.eat >=3){
-				entity.eat = 0;
-				entity.getStateMachine().changeState(CatStateProvider.STATE_SLEEP);
-			}
+			super.update(entity);
 		}
 	};
-	public static final CatState Sleep = new CatState(){
+	public static final CatState2 Sleep = new CatState2(){
 		@Override
 		protected String getStateName(Cat cat) {
-			return "Sleep";
+			return "Sleep --> " + cat.sleep;
 		}
 		@Override
 		public void update(Cat entity) {
-			super.update(entity);
 			entity.sleep++;
-			if(entity.sleep >=10){
-				entity.sleep = 0;
-				entity.getStateMachine().changeState(CatStateProvider.STATE_RUN);
-			}
+			super.update(entity);
 		}
 	};
-	public static final CatState Run = new CatState(){
+	public static final CatState2 Run = new CatState2(){
 		@Override
 		protected String getStateName(Cat cat) {
-			return "Run";
+			return "Run   -- > " + cat.run;
 		}
 		@Override
 		public void update(Cat entity) {
-			super.update(entity);
 			entity.run++;
-			if(entity.run >=5){
-				entity.run = 0;
-				entity.getStateMachine().changeState(CatStateProvider.STATE_EAT);
-			}
+			super.update(entity);
 		}
 	}
 	;

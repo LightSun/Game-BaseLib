@@ -13,7 +13,7 @@ public interface StateProvider<E extends StateMachineSupplier<E>>{
 	/**
 	 * get states by target state flags.
 	 * @param stateFlags the state flags.
-	 * @param out the state list
+	 * @param out the out state list, optional.
 	 * @return the state list.
 	 */
 	List<State<E>> getStates(int stateFlags, List<State<E>> out);
