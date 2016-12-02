@@ -16,6 +16,11 @@ public class StateTest {
 				e.printStackTrace();
 			}
 		}
+		
+		System.out.println("=============== begin test revert ================");
+		while(mCat.getStateMachine().revertToPreviousState()){
+			mCat.getStateMachine().update();
+		}
 	}
 
 }
