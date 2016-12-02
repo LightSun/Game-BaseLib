@@ -99,7 +99,8 @@ public interface StateMachine<E extends StateMachineSupplier<E>>{
 	public interface StateTransformer<E extends StateMachineSupplier<E>>{
 		
 		/**
-		 * transform the state of StateMachine.
+		 * transform the state of StateMachine. you should call {@link StateMachine#changeState(int)} or 
+		 * {@link StateMachine#changeState(int, List)} to change state.
 		 * @param e the State Machine Supplier.
 		 * @param machine the state machine
 		 */

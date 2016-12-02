@@ -9,6 +9,7 @@ public class CatStateProvider implements StateProvider<Cat> {
 	public static final int STATE_EAT    = 1  ;
 	public static final int STATE_RUN    = 1 << 1;
 	public static final int STATE_SLEEP  = 1 << 2 ;
+	
 
 	@Override
 	public List<State<Cat>> getStates(int stateFlags, List<State<Cat>> out) {

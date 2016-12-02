@@ -8,17 +8,7 @@ public class CatStateTransformer implements StateTransformer<Cat> {
 	@Override
 	public void transformState(StateMachine<Cat> machine, Cat e) {
 		
-		/*String state = "";
-		int current = machine.getCurrentState(null);
-		
-		if(current == STATE_EAT ){
-			machine.changeState(STATE_RUN );
-			state = " STATE_RUN ";
-		}else if(current == STATE_RUN){
-			machine.changeState(STATE_SLEEP );
-			state = " STATE_RUN ";
-		}*/
-		
+		//this is just a sample. you can change the state as you want.
 		int sum = e.eat + e.run + e.sleep;
 		
 		String msg = "";
@@ -60,7 +50,7 @@ public class CatStateTransformer implements StateTransformer<Cat> {
 			state = STATE_RUN ;
 		}
 		
-		System.out.println("CatStateTransformer: new state = " + msg);
+		System.out.println("CatStateTransformer: new state = " + msg );
 		machine.changeState(state);
 	}
 

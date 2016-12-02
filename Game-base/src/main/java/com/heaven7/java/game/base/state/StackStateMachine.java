@@ -65,9 +65,6 @@ public class StackStateMachine<E extends StateMachineSupplier<E>> extends
 	
 	@Override
 	public int changeState(int newStates, List<State<E>> outOldStates) {
-		if(outOldStates == null){
-			outOldStates = new ArrayList<State<E>>();
-		}
 		return changeState(newStates, true, outOldStates);
 	}
 

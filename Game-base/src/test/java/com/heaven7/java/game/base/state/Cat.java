@@ -7,7 +7,7 @@ import com.heaven7.java.game.base.state.StateMachineSupplier;
 
 public class Cat implements StateMachineSupplier<Cat>{
 	
-	DefaultStateMachine<Cat> machine;
+	private final DefaultStateMachine<Cat> machine;
 	
 	public int eat;
 	public int sleep;
@@ -15,13 +15,14 @@ public class Cat implements StateMachineSupplier<Cat>{
 	
 	public Cat() {
 		machine = new StackStateMachine<Cat>(this, createStateProvider());
+		//machine = new DefaultStateMachine<Cat>(this, createStateProvider());
 	}
 	@Override
 	public StateMachine<Cat> getStateMachine() {
 		return machine;
 	}
 	
-	public StateProvider<Cat> createStateProvider(){
+	protected StateProvider<Cat> createStateProvider(){
 		return new CatStateProvider();
 	}
 

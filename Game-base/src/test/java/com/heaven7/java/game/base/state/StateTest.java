@@ -13,7 +13,7 @@ public class StateTest {
 	private static void test2() {
 		StateMachine<Cat> machine = new Cat(){
 			
-			public StateProvider<Cat> createStateProvider() {
+			protected StateProvider<Cat> createStateProvider() {
 				return new CatStateProvider2();
 			};
 			
