@@ -41,6 +41,7 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 	 * 
 	 * @param owner
 	 *            the owner of the state machine
+	 * @param provider the state provider           
 	 */
 	public DefaultStateMachine(E owner, StateProvider<E> provider) {
 		this(owner, provider, 0, 0);
@@ -51,6 +52,8 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 	 * 
 	 * @param owner
 	 *            the owner of the state machine
+	 * @param provider the state provider  
+	 * 
 	 * @param initialState
 	 *            the initial state
 	 */
@@ -64,6 +67,7 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 	 * 
 	 * @param owner
 	 *            the owner of the state machine
+	 * @param provider the state provider             
 	 * @param initialState
 	 *            the initial state
 	 * @param globalState

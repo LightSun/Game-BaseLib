@@ -6,7 +6,7 @@ import java.util.List;
  * the state provider. provide the state.
  * @author heaven7
  *
- * @param <E>
+ * @param <E> the entity which implement {@link StateMachineSupplier}}.
  */
 public interface StateProvider<E extends StateMachineSupplier<E>>{
 	

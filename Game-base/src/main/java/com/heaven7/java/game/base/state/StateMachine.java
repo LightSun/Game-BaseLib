@@ -6,7 +6,7 @@ import java.util.List;
  * the state machine , support multi state change at the same time.
  * @author heaven7
  *
- * @param <E>
+ * @param <E> the entity which implement StateMachineSupplier.
  */
 public interface StateMachine<E extends StateMachineSupplier<E>>{
 	
@@ -25,7 +25,7 @@ public interface StateMachine<E extends StateMachineSupplier<E>>{
 	
 	/**
 	 * change to the state
-	 * @param newStates
+	 * @param newStates the new state to change to.
 	 */
 	public void changeState(int newStates);
 	
@@ -36,24 +36,33 @@ public interface StateMachine<E extends StateMachineSupplier<E>>{
 	public boolean revertToPreviousState ();
 
 	/** Sets the initial state of this state machine.
-	 * @param state the initial state. */
+	 * @param states the initial state. */
 	public void setInitialState (int states);
 	
 
 	/** Sets the global state of this state machine.
-	 * @param state the global state. */
+	 * @param states the global state. */
 	public void setGlobalState (int states);
 	
 
-	/** Returns the current state of this state machine. outStates can be null. */
+	/** Returns the current state of this state machine. outStates can be null. 
+	 * @param outStates  optional , can be null 
+	 * @return the state list
+	 **/
 	public List<State<E>> getCurrentState(List<State<E>> outStates);
 	
 
-	/** return the global state,  outStates can be null. */
+	/** return the global state,  outStates can be null. 
+	 * @param outStates  optional , can be null 
+	 * @return the state list
+	 * */
 	public List<State<E>>  getGlobalState (List<State<E>> outStates);
 	
 
-	/** Returns the last state of this state machine. outStates can be null. */
+	/** Returns the last state of this state machine. outStates can be null.
+	 * @param outStates  optional , can be null 
+	 * @return the state list
+	 *  */
 	public List<State<E>>  getPreviousState (List<State<E>> outStates);
 	
 	/**

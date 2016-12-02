@@ -1,0 +1,11 @@
+-classpath 'D:\\study\\github\\repository\\Game-BaseLib\\Game-base\\build\\classes\\main;D:\\study\\github\\repository\\Game-BaseLib\\Game-base\\build\\resources\\main;C:\\Users\\don\\.gradle\\caches\\modules-2\\files-2.1\\org.slf4j\\slf4j-api\\1.7.21\\139535a69a4239db087de9bab0bee568bf8e0b70\\slf4j-api-1.7.21.jar'
+-d 'D:\\study\\github\\repository\\Game-BaseLib\\Game-base\\build\\docs\\javadoc'
+-doctitle 'Game-base API'
+-quiet 
+-windowtitle 'Game-base API'
+'D:\\study\\github\\repository\\Game-BaseLib\\Game-base\\src\\main\\java\\com\\heaven7\\java\\game\\base\\state\\DefaultStateMachine.java'
+'D:\\study\\github\\repository\\Game-BaseLib\\Game-base\\src\\main\\java\\com\\heaven7\\java\\game\\base\\state\\StackStateMachine.java'
+'D:\\study\\github\\repository\\Game-BaseLib\\Game-base\\src\\main\\java\\com\\heaven7\\java\\game\\base\\state\\State.java'
+'D:\\study\\github\\repository\\Game-BaseLib\\Game-base\\src\\main\\java\\com\\heaven7\\java\\game\\base\\state\\StateMachine.java'
+'D:\\study\\github\\repository\\Game-BaseLib\\Game-base\\src\\main\\java\\com\\heaven7\\java\\game\\base\\state\\StateMachineSupplier.java'
+'D:\\study\\github\\repository\\Game-BaseLib\\Game-base\\src\\main\\java\\com\\heaven7\\java\\game\\base\\state\\StateProvider.java'
