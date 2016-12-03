@@ -1,13 +1,8 @@
 package com.heaven7.java.game.base.state;
 
-import com.heaven7.java.game.base.state.DefaultStateMachine;
-import com.heaven7.java.game.base.state.StackStateMachine;
-import com.heaven7.java.game.base.state.StateMachine;
-import com.heaven7.java.game.base.state.StateMachineSupplier;
-
 public class Cat implements StateMachineSupplier<Cat>{
 	
-	private final DefaultStateMachine<Cat> machine;
+	private final StateMachine<Cat> machine;
 	
 	public int eat;
 	public int sleep;

@@ -11,8 +11,8 @@ public class CatStateTransformer implements StateTransformer<Cat> {
 		//this is just a sample. you can change the state as you want.
 		int sum = e.eat + e.run + e.sleep;
 		
-		String msg = "";
-		int state = 0;
+		String msg ;
+		int state ;
 		
 		if (sum % (STATE_EAT | STATE_RUN | STATE_SLEEP) == 0) {
 			
@@ -51,7 +51,7 @@ public class CatStateTransformer implements StateTransformer<Cat> {
 		}
 		
 		System.out.println("CatStateTransformer: new state = " + msg );
-		machine.changeState(state);
+		machine.setState(state);
 	}
 
 }

@@ -70,24 +70,10 @@ public class StackStateMachine<E extends StateMachineSupplier<E>> extends
 
 
 	//return the previous state
-	private int changeState(int newState, boolean pushCurrentStateToStack, List<State<E>> oldState) {
-
+	private int changeState(int newStates, boolean pushCurrentStateToStack, List<State<E>> out) {
 		if (pushCurrentStateToStack && mCurrentState != 0) {
 			mStateStack.add(mCurrentState);
 		}
-		int preState = mCurrentState;
-		// Call the exit method of the existing state
-		if (preState != 0) {
-			exitState(preState);
-			if(oldState != null){
-				mStateProvider.getStates(preState, oldState);
-			}
-		}
-		// Change state to the new state
-		mCurrentState = newState;
-
-		// Call the entry method of the new state
-		enterState(newState);
-		return preState;
+		return super.changeState(newStates, out);
 	}
 }

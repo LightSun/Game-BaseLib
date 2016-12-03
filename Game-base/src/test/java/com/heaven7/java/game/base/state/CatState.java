@@ -1,7 +1,5 @@
 package com.heaven7.java.game.base.state;
 
-import com.heaven7.java.game.base.state.State;
-
 /**
  * single state
  * @author don
@@ -20,7 +18,7 @@ public abstract class CatState implements State<Cat>{
 			entity.eat++;
 			if(entity.eat >=3){
 				entity.eat = 0;
-				entity.getStateMachine().changeState(CatStateProvider.STATE_SLEEP);
+				entity.getStateMachine().setState(CatStateProvider.STATE_SLEEP);
 			}
 		}
 	};
@@ -35,7 +33,7 @@ public abstract class CatState implements State<Cat>{
 			entity.sleep++;
 			if(entity.sleep >=10){
 				entity.sleep = 0;
-				entity.getStateMachine().changeState(CatStateProvider.STATE_RUN);
+				entity.getStateMachine().setState(CatStateProvider.STATE_RUN);
 			}
 		}
 	};
@@ -50,7 +48,7 @@ public abstract class CatState implements State<Cat>{
 			entity.run++;
 			if(entity.run >=5){
 				entity.run = 0;
-				entity.getStateMachine().changeState(CatStateProvider.STATE_EAT);
+				entity.getStateMachine().setState(CatStateProvider.STATE_EAT);
 			}
 		}
 	}

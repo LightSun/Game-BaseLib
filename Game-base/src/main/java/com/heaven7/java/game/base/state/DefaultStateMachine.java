@@ -114,7 +114,6 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 
 	@Override
 	public final void update() {
-		
 		onUpdate();
 		// transform state if need
 		if(mTransformer != null){
@@ -127,40 +126,52 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 	 */
 	protected void onUpdate() {
 		// Execute the global state (if any)
-		if (mGlobalState != 0) {
+		if(mGlobalState != 0) {
 			updateState(mGlobalState);
 		}
-
 		// Execute the current state (if any)
-		if (mCurrentState != 0) {
+		if(mCurrentState != 0) {
 			updateState(mCurrentState);
 		}
 	}
 
 	@Override
-	public void changeState(int newStates) {
+	public void addState(int states) {
+		int preState = mCurrentState;
+		if( preState != (mCurrentState |= states )) {
+			enterState(states);
+		}
+	}
+
+	@Override
+	public void removeState(int states) {
+		int preState = mCurrentState;
+		if( preState != (mCurrentState &= ~states )) {
+			exitState(states);
+		}
+	}
+
+	@Override
+	public void setState(int newStates) {
 		changeState(newStates, null);
 	}
 
 	@Override
 	public int changeState(int newStates, List<State<E>> outOldStates) {
 		checkState(newStates);
+
+		final int preState = mPreviousState;
 		// Keep a record of the previous state
 		mPreviousState = mCurrentState;
-		// Call the exit method of the existing state
-		if (mCurrentState != 0) {
-			exitState(mCurrentState);
-		}
 		// Change state to the new state
 		mCurrentState = newStates;
+		//dispatch the state change. as state.enter/exit
+		dispatchStateChange(mPreviousState, newStates);
 
-		// Call the entry method of the new state
-		enterState(newStates);
-
-		if (outOldStates != null) {
-			mStateProvider.getStates(mPreviousState, outOldStates);
+		if (outOldStates != null && preState != 0 ) {
+			mStateProvider.getStates(preState, outOldStates);
 		}
-		return mPreviousState;
+		return preState;
 	}
 
 	@Override
@@ -168,9 +179,7 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 		if (mPreviousState == 0) {
 			return false;
 		}
-
 		changeState(mPreviousState, null);
-
 		return true;
 	}
 
@@ -194,15 +203,27 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 		return getStateInternal(mPreviousState, outStates);
 	}
 
-	private int getStateInternal(int expectState, List<State<E>> outStates) {
-		if (expectState != 0) {
-			if (outStates == null) {
-				outStates = new ArrayList<State<E>>();
-			}
-			mStateProvider.getStates(expectState, outStates);
-			return expectState;
-		} else {
-			return 0;
+	@Override
+	public void setStateTransformer(StateMachine.StateTransformer<E> transformer) {
+		this.mTransformer = transformer;
+	}
+
+	/**
+	 * dispatch the state change if need.
+	 * @param currentState the current state
+	 * @param newState the target or new state
+     */
+	protected void dispatchStateChange(int currentState, int newState){
+		final int shareFlag =  currentState & newState ;
+		final int enterFlag = newState & ~shareFlag;
+		final int exitFlag = currentState & ~shareFlag;
+		// Call the exit method of the existing state
+		if (exitFlag != 0) {
+			exitState(exitFlag);
+		}
+		// Call the entry method of the new state
+		if(enterFlag != 0) {
+			enterState(enterFlag);
 		}
 	}
 
@@ -236,15 +257,22 @@ public class DefaultStateMachine<E extends StateMachineSupplier<E>> implements S
 		mTempStates.clear();
 	}
 
-	private void checkState(int expectState) {
-		if (expectState <= 0) {
-			throw new IllegalArgumentException();
+	private int getStateInternal(int expectState, List<State<E>> outStates) {
+		if (expectState != 0) {
+			if (outStates == null) {
+				outStates = new ArrayList<State<E>>();
+			}
+			mStateProvider.getStates(expectState, outStates);
+			return expectState;
+		} else {
+			return 0;
 		}
 	}
 
-	@Override
-	public void setStateTransformer(StateMachine.StateTransformer<E> transformer) {
-		this.mTransformer = transformer;
+	private void checkState(int expectState) {
+		if (expectState <= 0) {
+			throw new IllegalArgumentException("state flag must above 0.");
+		}
 	}
 
 }
