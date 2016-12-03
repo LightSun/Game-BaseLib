@@ -1,6 +1,6 @@
 package com.heaven7.java.game.base.state;
 
-public class Cat implements StateMachineSupplier<Cat>{
+public class Cat implements StateMachineSupplier{
 	
 	private final StateMachine<Cat> machine;
 	
@@ -9,15 +9,14 @@ public class Cat implements StateMachineSupplier<Cat>{
 	public int run;
 	
 	public Cat() {
-		machine = new StackStateMachine<Cat>(this, createStateProvider());
-		//machine = new DefaultStateMachine<Cat>(this, createStateProvider());
+		//machine = new StackStateMachine<Cat>(this, createStateProvider());
+		machine = new DefaultStateMachine<Cat>(this, createStateProvider());
 	}
-	@Override
-	public StateMachine<Cat> getStateMachine() {
+	public StateMachine getStateMachine() {
 		return machine;
 	}
 	
-	protected StateProvider<Cat> createStateProvider(){
+	protected StateProvider createStateProvider(){
 		return new CatStateProvider();
 	}
 

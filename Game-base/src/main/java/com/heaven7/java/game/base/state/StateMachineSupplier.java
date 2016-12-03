@@ -1,15 +1,14 @@
 package com.heaven7.java.game.base.state;
 /**
- * one object map one StateMachine
+ * the state machine supplier.
  * @author heaven7
- * @param <E> the entity which implement {@link StateMachineSupplier}}
  */
-public interface StateMachineSupplier<E extends StateMachineSupplier<E>>{
+public interface StateMachineSupplier{
 	
 	/**
 	 * get the state machine
 	 * @return the state machine
 	 */
-	StateMachine<E> getStateMachine();
+	StateMachine getStateMachine();
 	
 }

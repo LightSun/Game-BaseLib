@@ -6,24 +6,24 @@ package com.heaven7.java.game.base.state;
  *
  * @param <E> the state machine suppplier
  */
-public interface State<E extends StateMachineSupplier<E>> {
+public interface State<E> {
 
 	/**
 	 * this is called on enter this state.
 	 * @param entity the entity
 	 */
-	public void enter (E entity);
+	 void enter (E entity);
 
 	/**
 	 * this is called on update this state. which is called by {@link StateMachine#update()}.
 	 * @param entity the entity
 	 */
-	public void update (E entity);
+	 void update (E entity);
 
 	/**
 	 * this is called on exit this state.
 	 * @param entity the entity
 	 */
-	public void exit (E entity);
+	 void exit (E entity);
 	
 }

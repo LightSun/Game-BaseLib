@@ -17,8 +17,8 @@ public abstract class CatState implements State<Cat>{
 			super.update(entity);
 			entity.eat++;
 			if(entity.eat >=3){
-				entity.eat = 0;
 				entity.getStateMachine().setState(CatStateProvider.STATE_SLEEP);
+				entity.eat = 0;
 			}
 		}
 	};
@@ -32,8 +32,8 @@ public abstract class CatState implements State<Cat>{
 			super.update(entity);
 			entity.sleep++;
 			if(entity.sleep >=10){
-				entity.sleep = 0;
 				entity.getStateMachine().setState(CatStateProvider.STATE_RUN);
+				entity.sleep = 0;
 			}
 		}
 	};
@@ -47,8 +47,8 @@ public abstract class CatState implements State<Cat>{
 			super.update(entity);
 			entity.run++;
 			if(entity.run >=5){
-				entity.run = 0;
 				entity.getStateMachine().setState(CatStateProvider.STATE_EAT);
+				entity.run = 0;
 			}
 		}
 	}

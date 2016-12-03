@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.heaven7.java.game.base.state.StateJnitTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-12-02T08:23:41" hostname="DESKTOP-Q293223" time="2.018">
+<testsuite name="com.heaven7.java.game.base.state.StateTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-12-02T08:23:41" hostname="DESKTOP-Q293223" time="2.018">
   <properties/>
-  <testcase name="testSingleStateChange" classname="com.heaven7.java.game.base.state.StateJnitTest" time="2.018"/>
+  <testcase name="testSingleStateChange" classname="com.heaven7.java.game.base.state.StateTests" time="2.018"/>
   <system-out><![CDATA[eat: update()
 eat: update()
 eat: update()

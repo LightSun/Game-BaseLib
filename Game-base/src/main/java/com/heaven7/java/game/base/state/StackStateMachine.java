@@ -1,21 +1,24 @@
 package com.heaven7.java.game.base.state;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 
 /**
  * a stack structure of state machine
- * 
+ * <p>
+ *     Note: {@link #addState(int)} or {@link #removeState(int)} will have no effect with state stack.
+ * </p>
+ *
  * @author heaven7
- * 
  * @param <E>
  *            the entity which implement {@link StateMachineSupplier}.
  */
-public class StackStateMachine<E extends StateMachineSupplier<E>> extends
-		DefaultStateMachine<E> {
+public class StackStateMachine<E> extends DefaultStateMachine<E> {
 
+	/**
+	 * the history state stack.
+	 */
 	private LinkedList<Integer> mStateStack;
 
 	public StackStateMachine(E owner, StateProvider<E> provider,
@@ -37,7 +40,27 @@ public class StackStateMachine<E extends StateMachineSupplier<E>> extends
 		super.onFinalInit();
 		mStateStack = new LinkedList<Integer>();
 	}
-	
+
+	@Override
+	public boolean addState(int states) {
+		int curState = mCurrentState;
+		final boolean result = super.addState(states);
+        if( result ){
+            mStateStack.add(curState);
+		}
+		return result;
+	}
+
+	@Override
+	public boolean removeState(int states) {
+		int curState = mCurrentState;
+		final boolean result = super.removeState(states);
+		if( result ){
+			mStateStack.add(curState);
+		}
+		return result;
+	}
+
 	@Override
 	public int getPreviousState(List<State<E>> outStates) {
 		if(mStateStack.size() == 0){
@@ -45,10 +68,9 @@ public class StackStateMachine<E extends StateMachineSupplier<E>> extends
 		}
 		//get last.
 		int preState = mStateStack.peek();
-		if(outStates == null){
-			outStates = new ArrayList<State<E>>();
+		if(outStates != null){
+			mStateProvider.getStates(preState, outStates);
 		}
-		mStateProvider.getStates(preState, outStates);
 		return preState;
 	}
 	
@@ -74,6 +96,7 @@ public class StackStateMachine<E extends StateMachineSupplier<E>> extends
 		if (pushCurrentStateToStack && mCurrentState != 0) {
 			mStateStack.add(mCurrentState);
 		}
+		//System.err.println("stack: " + mStateStack); //test ok
 		return super.changeState(newStates, out);
 	}
 }

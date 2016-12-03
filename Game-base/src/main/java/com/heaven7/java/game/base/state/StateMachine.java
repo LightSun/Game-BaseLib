@@ -8,22 +8,26 @@ import java.util.List;
  *     Note : the all state must be 2^n all their summation.
  * </p>
  *
- * @param <E> the entity which implement StateMachineSupplier.
+ * @param <E> the owner
  * @author heaven7
  */
-public interface StateMachine<E extends StateMachineSupplier<E>> {
+public interface StateMachine<E> {
 
     /**
-     * add the target state to current state.
-     * @param states the target state
+     * add the target state to current state. after call this the target state will be merged with current state.
+     * @param states the target state.
+     * @return true if add state success.
+     * @see {@link #removeState(int)}
      */
-    void addState(int states);
+    boolean addState(int states);
 
     /**
      * remove the target state from current state.
      * @param states the target state
+     * @return true if remove state success.
+     * @see {@link #addState(int)}
      */
-    void removeState(int states);
+    boolean removeState(int states);
 
     /**
      * change to the state
@@ -114,11 +118,18 @@ public interface StateMachine<E extends StateMachineSupplier<E>> {
      * they are compared with the {@code ==} operator instead of the
      * {@code equals} method.
      *
-     * @param states the state to be compared with the current state
+     * @param state the state to be compared with the current state
      * @return true if the current state and the given state are the same
      * object.
      */
-    boolean isInState(int states);
+    boolean isInState(int state);
+
+    /**
+     * indicate is the target state is acting or not. this is often used in mix state.
+     * @param state the target state to check
+     * @return true is has the target state.
+     */
+    boolean hasState(int state);
 
     /**
      * the state transformer. use to transform state.
@@ -126,7 +137,7 @@ public interface StateMachine<E extends StateMachineSupplier<E>> {
      * @param <E> the entity
      * @author don
      */
-    interface StateTransformer<E extends StateMachineSupplier<E>> {
+    interface StateTransformer<E> {
 
         /**
          * transform the state of StateMachine. you should call {@link StateMachine#setState(int)} or
