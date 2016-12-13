@@ -11,7 +11,8 @@ import java.util.List;
 public interface StateProvider<E>{
 	
 	/**
-	 * get states by target state flags.
+	 * get states by target state flags. you should provide a unique State for every flag with
+	 * the same Provider.
 	 * @param stateFlags the state flags.
 	 * @param out the out state list, optional.
 	 * @return the state list.

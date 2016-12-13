@@ -4,7 +4,7 @@ package com.heaven7.java.game.base.state;
  * the state which can be notify by 'enter'/'update'/'exit'. 
  * @author heaven7
  *
- * @param <E> the state machine suppplier
+ * @param <E> the state machine owner
  */
 public interface State<E> {
 
@@ -25,5 +25,10 @@ public interface State<E> {
 	 * @param entity the entity
 	 */
 	 void exit (E entity);
-	
+
+	/**
+	 * called when the owner is already in this state, and reenter this state.
+	 * @param entity the entity
+     */
+	 void reenter(E entity);
 }

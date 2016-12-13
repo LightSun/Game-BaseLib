@@ -1,8 +1,5 @@
 package com.heaven7.java.game.base.state;
 
-import com.heaven7.java.game.base.state.State;
-
-
 public abstract class CatState2 implements State<Cat>{
 	
 	public static final CatState2 Eat = new CatState2(){
@@ -57,4 +54,8 @@ public abstract class CatState2 implements State<Cat>{
 		System.out.println(getStateName(entity)+": exit()");
 	}
 
+	@Override
+	public void reenter(Cat entity) {
+		System.out.println(getStateName(entity)+": exit()");
+	}
 }

@@ -16,7 +16,7 @@ public interface StateMachine<E> {
     /**
      * add the target state to current state. after call this the target state will be merged with current state.
      * @param states the target state.
-     * @return true if add state success.
+     * @return true if add state success.or else this state is already entered,
      * @see {@link #removeState(int)}
      */
     boolean addState(int states);
@@ -24,7 +24,7 @@ public interface StateMachine<E> {
     /**
      * remove the target state from current state.
      * @param states the target state
-     * @return true if remove state success.
+     * @return true if remove state success. or else this state is not entered,
      * @see {@link #addState(int)}
      */
     boolean removeState(int states);

@@ -11,6 +11,10 @@ import java.util.List;
  */
 public class DefaultStateMachine<E> implements StateMachine<E> {
 
+    /*protected static final int OP_ENTER    = 1;
+    protected static final int OP_UPDATE   = 2;
+    protected static final int OP_EXIT     = 3;
+    protected static final int OP_REENTER  = 4;*/
     /**
      * The entity that owns this state machine.
      */
@@ -133,11 +137,15 @@ public class DefaultStateMachine<E> implements StateMachine<E> {
 
     @Override
     public boolean addState(int states) {
-        checkState(states);
+        if(states <= 0 ) return false;
         final int curState = mCurrentState;
-        //check if have already have the state.
-        final int share;
-        if ((share = (curState & states)) == states) {
+        //check if already have the state.
+        final int share = (curState & states);
+        if(share != 0){
+            reenterState(share);
+        }
+        // not change
+        if (share == states) {
             return false;
         }
         mPreviousState = curState;
@@ -148,6 +156,7 @@ public class DefaultStateMachine<E> implements StateMachine<E> {
 
     @Override
     public boolean removeState(int states) {
+        if(states <= 0 ) return false;
         checkState(states);
         final int curState = mCurrentState;
         int share = curState & states;
@@ -242,6 +251,10 @@ public class DefaultStateMachine<E> implements StateMachine<E> {
         if (enterFlag != 0) {
             enterState(enterFlag);
         }
+        //call reenter state
+        if(shareFlag != 0){
+            reenterState(shareFlag);
+        }
     }
 
     protected void updateState(int expectStates) {
@@ -274,6 +287,16 @@ public class DefaultStateMachine<E> implements StateMachine<E> {
         mTempStates.clear();
     }
 
+    protected void reenterState(int states) {
+        final List<State<E>> mTempStates = this.mTempStates;
+        final E mOwner = this.mOwner;
+        mStateProvider.getStates(states, mTempStates);
+        for (int size = mTempStates.size(), i = size - 1; i >= 0; i--) {
+            mTempStates.get(i).reenter(mOwner);
+        }
+        mTempStates.clear();
+    }
+
     private int getStateInternal(int expectState, List<State<E>> outStates) {
         if (expectState != 0) {
             if (outStates != null) {
@@ -286,8 +309,8 @@ public class DefaultStateMachine<E> implements StateMachine<E> {
     }
 
     private void checkState(int expectState) {
-        if (expectState <= 0) {
-            throw new IllegalArgumentException("state flag must above 0.");
+        if (expectState < 0) {
+            throw new IllegalArgumentException("state flag must be >= 0.");
         }
     }
 
