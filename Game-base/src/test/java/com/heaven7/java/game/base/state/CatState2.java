@@ -56,6 +56,6 @@ public abstract class CatState2 implements State<Cat>{
 
 	@Override
 	public void reenter(Cat entity) {
-		System.out.println(getStateName(entity)+": exit()");
+		System.out.println(getStateName(entity)+": reenter()");
 	}
 }
